@@ -1,0 +1,5 @@
+/pizza/.env
+/env
+__pycache__/
+/db.sqlite3
+sales/.env
