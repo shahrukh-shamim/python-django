@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z0(=@blv+51ur8wsf5xo6f4)w#5l2a_7v^g8epfh=ehs$9t8!a'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -39,8 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #CUSTOM APPS
-    'authentication.apps.AuthenticationConfig'
+    'authentication.apps.AuthenticationConfig',
+
+    #third party
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 ]
+
+AUTH_USER_MODEL = 'authentication.User'
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEYS': 'errors',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,13 +121,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = config('LANGUAGE_CODE', cast=bool)
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = config('TIME_ZONE', cast=bool)
 
-USE_I18N = True
+USE_I18N = config('USE_I18N', cast=bool)
 
-USE_TZ = True
+USE_TZ = config('USE_TZ', cast=bool)
 
 
 # Static files (CSS, JavaScript, Images)
