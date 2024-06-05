@@ -121,9 +121,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = config('LANGUAGE_CODE', cast=bool)
+LANGUAGE_CODE = config('LANGUAGE_CODE')
 
-TIME_ZONE = config('TIME_ZONE', cast=bool)
+TIME_ZONE = config('TIME_ZONE')
 
 USE_I18N = config('USE_I18N', cast=bool)
 
