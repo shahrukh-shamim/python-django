@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #CUSTOM APPS
     'authentication.apps.AuthenticationConfig',
+    'home.apps.HomeConfig',
 
     #third party
     'rest_framework',
