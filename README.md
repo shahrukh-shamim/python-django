@@ -18,3 +18,9 @@
     <li>Run the migrations <code>python3 manage.py migrate</code></li>
     <li>Finally start the server using <code>python3 manage.py runserver</code>, this will also hang the terminal while the server is running, to close the server press CTRL+C</li>
 </ol>
+<h3>How to create an app</h3>
+<p>Please follow the following instruction<p>
+<ol>
+    <li>Run command <i>python3 manage.py startapp <b>appname</b></i>. For example, for a module called leads, <code>python3 manage.py startapp leads</code></li>
+    <li>Enlist the newly created app in \settings.py, in the <b>INSTALLED_APP</b> array, include your app, 'leads.apps.LeadsConfig', this is basically what you would have in apps.py file in your newly created app folder, so add it under the comment #CUSTOM APPS</li>
+</ol>
