@@ -9,16 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 # Create your views here.
-class BlogPageView(TemplateView):
-    template_name = 'blogs/blogs.html'
-
-    def get_context_data(self, **kwargs):
-        configs = Blog.objects.filter()
-        context = super().get_context_data(**kwargs)
-
-        for config in configs:
-            context[config.key] = config.value
-        return context
 
 class BlogListView(ListView):
     model = Blog
