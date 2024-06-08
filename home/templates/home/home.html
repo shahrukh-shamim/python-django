@@ -1,84 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
-        .navbar {
-            background-color: #0e0e0e;
-        }
-        .navbar-brand, .nav-link, .footer {
-            color: #fff !important;
-        }
-        .card-header {
-            background-color: #343a40;
-            color: #fff;
-        }
-        .card-body {
-            background-color: #fff;
-        }
-    </style>
-</head>
-<body>
+<!-- home/templates/home/home.html -->
+{% extends "base.html" %}
 
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">{% if user.is_authenticated %}{{ user.username }} Homepage{% else %}Homepage{% endif %}</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-                <li class="nav-item">
-                    {% if user.is_authenticated %}
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    {% else %}
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
-    </nav>
+{% block title %}Home{% endblock %}
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-header">Section 1</div>
-                    <div class="card-body">
-                        <p>This is a sample text for section 1. It resembles the Django admin interface styling.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-header">Section 2</div>
-                    <div class="card-body">
-                        <p>This is a sample text for section 2. It resembles the Django admin interface styling.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-header">Section 3</div>
-                    <div class="card-body">
-                        <p>This is a sample text for section 3. It resembles the Django admin interface styling.</p>
-                    </div>
-                </div>
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">Section 1</div>
+            <div class="card-body">
+                <p>This is a sample text for section 1. It resembles the Django admin interface styling.</p>
             </div>
         </div>
     </div>
-
-</body>
-</html>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">Section 2</div>
+            <div class="card-body">
+                <p>This is a sample text for section 2. It resembles the Django admin interface styling.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">Section 3</div>
+            <div class="card-body">
+                <p>This is a sample text for section 3. It resembles the Django admin interface styling.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

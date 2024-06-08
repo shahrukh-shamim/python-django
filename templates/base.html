@@ -1,0 +1,63 @@
+<!-- myproject/templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Site{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            background-color: #0e0e0e;
+        }
+        .navbar-brand, .nav-link, .footer {
+            color: #fff !important;
+        }
+        .card-header {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .card-body {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">My Site</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 2024 My Site</span>
+        </div>
+    </footer>
+</body>
+</html>
