@@ -5,6 +5,8 @@ from .models import Blog
 from django.urls import reverse_lazy
 from .serializers import BlogSerializer
 from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 class BlogPageView(TemplateView):
@@ -34,6 +36,11 @@ class BlogCreateView(CreateView):
     template_name = 'blogs/form.html'
     success_url = reverse_lazy('blog_list')
 
+    @method_decorator(login_required(login_url=reverse_lazy('login')))
+    def dispatch(self, request, *args, **kwargs):
+        # Your view logic here (optional for further processing after authentication check)
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_type'] = 'create'
@@ -43,7 +50,6 @@ class BlogCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ['title', 'content']
@@ -51,13 +57,18 @@ class BlogUpdateView(UpdateView):
     success_url = reverse_lazy('blog_list')
     pk_url_kwarg = 'pk'
 
+    @method_decorator(login_required(login_url=reverse_lazy('login')))
+    def dispatch(self, request, *args, **kwargs):
+        # Your view logic here (optional for further processing after authentication check)
+        return super().dispatch(request, *args, **kwargs)
+
 class BlogDeleteView(DeleteView):
     model = Blog
     template_name = 'blogs/confirm_delete.html'
     success_url = reverse_lazy('blog_list')
     pk_url_kwarg = 'pk'
 
-class BlogListCreateView(generics.ListCreateAPIView):
-    queryset = Blog.objects.all()
-    # You will be modifying serializer class for custom implementaion
-    serializer_class = BlogSerializer
+    @method_decorator(login_required(login_url=reverse_lazy('login')))
+    def dispatch(self, request, *args, **kwargs):
+        # Your view logic here (optional for further processing after authentication check)
+        return super().dispatch(request, *args, **kwargs)
