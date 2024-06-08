@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #CUSTOM APPS
     'authentication.apps.AuthenticationConfig',
     'home.apps.HomeConfig',
+    'blogs.apps.BlogsConfig',
 
     #third party
     'rest_framework',
