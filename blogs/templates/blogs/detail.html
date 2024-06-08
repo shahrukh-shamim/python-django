@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>
+{{ blog.title }}
+{% if user.is_authenticated and blog.author.id == user.id %}
+    <a href="{% url 'blog_update' blog.id %}">Edit</a>
+{% endif %}
+</h2>
+<hr>
+<p>{{ blog.content }}</p>
+<hr>
+<p>By {{ blog.author.username }}</p>
+{% endblock %}

@@ -2,6 +2,9 @@
 <p>This repository comes with</p>
 <ol>
     <li>Basic API authentication</li>
+    <li>Session authentication</li>
+    <li>Base layout configured</li>
+    <li>Basic Blogging on website using sessions</li>
 </ol>
 <h3>Pre-requisites</h3>
 <ol>
