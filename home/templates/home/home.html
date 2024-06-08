@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Home</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -26,8 +26,9 @@
     </style>
 </head>
 <body>
+
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">Django Admin Themed Homepage</a>
+        <a class="navbar-brand" href="#">{% if user.is_authenticated %}{{ user.username }} Homepage{% else %}Homepage{% endif %}</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -38,6 +39,13 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
@@ -72,9 +80,5 @@
         </div>
     </div>
 
-    <footer class="footer text-center mt-5 py-3">
-        <p>&copy; 2024 Django Admin Themed Homepage</p>
-    </footer>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.c
+</body>
+</html>

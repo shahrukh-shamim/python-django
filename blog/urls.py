@@ -21,5 +21,6 @@ urlpatterns = [
     path('cms/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path('auth/', include('djoser.urls.jwt')),
+    path('', include('authentication.sessionbased_authentication_urls')),
     path('', include('home.urls')),
 ]
