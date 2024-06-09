@@ -3,6 +3,10 @@ from django.contrib.auth import get_user_model
 
 User=get_user_model()
 
+class BlogManager(models.Manager):
+    def all_blogs(self):
+        return self.all()
+
 # Create your models here.
 class Blog(models.Model):
 
@@ -24,6 +28,8 @@ class Blog(models.Model):
     views=models.IntegerField(default=0)
     created_at=models.DateField(auto_now_add=True)
     updated_at=models.DateField(auto_now=True)
+
+    objects = BlogManager()
 
     def __str__(self) -> str:
         return f"<Blog {self.title} by {self.author.username}>"
