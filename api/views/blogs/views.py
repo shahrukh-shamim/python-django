@@ -6,23 +6,21 @@ from rest_framework.decorators import permission_classes
 from blogs.models import Blog
 from rest_framework.permissions import IsAuthenticated
 from blogs.services import BlogService
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from blogs.filters.api import BlogFilter
 
 # Create your views here.
-class GetBlogs(generics.GenericAPIView):
+class GetBlogs(generics.ListAPIView):
     serializer_class = serializers.BlogSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = BlogFilter
+    search_fields = ['title', 'content']
+    ordering_fields = ['created_at', 'title']
 
-    def get(self, request):
-        # # Access the logged-in user
-        # logged_in_user = request.user
-        
-        filters =  request.filters if hasattr(request, 'filters') else []
-        print(request)  
-        blogs = BlogService.get_all_blogs(filters)
-        
-        serializer = self.get_serializer(instance=blogs, many=True)
-        data = { "message": "All orders", "data": serializer.data }
-        return Response(data=data, status=status.HTTP_200_OK)
-    
+    def get_queryset(self):
+        return BlogService.get_all_blogs()
+
     def post(self, request):
         serializer_class= serializers.BlogSerializer
         serializer = serializer_class(data=request.data, context={'request': request})

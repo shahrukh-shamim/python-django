@@ -50,9 +50,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
+# Model responsible for authentication
 AUTH_USER_MODEL = 'authentication.User'
+
+# Set the default template pack
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEYS': 'errors',
@@ -60,6 +66,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
 }
 
 MIDDLEWARE = [
