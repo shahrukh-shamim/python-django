@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from api.serializers.blogs import serializers
 from rest_framework.decorators import permission_classes
 from blogs.models import Blog
@@ -11,63 +12,44 @@ from django_filters.rest_framework import DjangoFilterBackend
 from blogs.filters.api import BlogFilter
 
 # Create your views here.
-class GetBlogs(generics.ListAPIView):
+class BlogListCreateView(generics.ListCreateAPIView):
     serializer_class = serializers.BlogSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = BlogFilter
     search_fields = ['title', 'content']
     ordering_fields = ['created_at', 'title']
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         return BlogService.get_all_blogs()
-
-    def post(self, request):
-        serializer_class= serializers.BlogSerializer
-        serializer = serializer_class(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# @permission_classes([IsAuthenticated])
-# class BlogFetchUpdateDeleteView(generics.GenericAPIView):
     
-#     def get(self, request, blog_id):
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
-#         serializer_class= serializers.MyBlogsSerializer
-
-#         # Access the logged-in user
-#         logged_in_user = request.user
-#         try:
-#             blog = Blog.objects.get(pk=blog_id)
-#         except Blog.DoesNotExist:
-#             return Response(data={"error": "Blog not found"}, status=status.HTTP_404_NOT_FOUND)
-#         if request.user.is_superuser or request.user.is_admin:
-#             serializer = serializers.AdminSerializer(blog, data=request.data, context={'request': request})
-#         elif(logged_in_user.id != blog.sales_rep_id):
-#             return Response(data={"error": "Blog does not belong to you"}, status=status.HTTP_403_FORBIDDEN)
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(data={"error": "Authentication required"}, status=status.HTTP_403_FORBIDDEN)
         
-#         serializer=serializer_class(instance=blog, many=False)
-#         response={'message': "Blog found", 'data':serializer.data}
-#         return Response(data=response, status=status.HTTP_200_OK)
+        return super().post(request, *args, **kwargs)
+
+class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = BlogService.get_all_blogs()
+    serializer_class = serializers.BlogSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
-#     def put(self, request, blog_id):
-        
-#         # Access the logged-in user
-#         logged_in_user = request.user
-#         try:
-#             blog = Blog.objects.get(pk=blog_id)
-#         except Blog.DoesNotExist:
-#             return Response(data={"error": "Blog not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-#         if request.user.is_superuser or request.user.is_admin:
-#             serializer = serializers.AdminSerializer(blog, data=request.data, context={'request': request})
-#         elif(logged_in_user.id != blog.sales_rep_id):
-#             return Response(data={"error": "Blog does not belong to you"}, status=status.HTTP_403_FORBIDDEN)
-#         else:
-#             serializer = serializers.MyBlogsSerializer(blog, data=request.data, context={'request': request})
+    def get_object(self):
+        obj = super().get_object()
+        # Additional custom permissions or logic can be added here
+        return obj
 
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(data=serializer.data, status=status.HTTP_200_OK)
-#         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user != instance.author and not request.user.is_superuser:
+            return Response(data={"error": "You are not allowed to update this blog post"}, status=status.HTTP_403_FORBIDDEN)
+        return super().update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user != instance.author and not request.user.is_superuser:
+            return Response(data={"error": "You are not allowed to delete this blog post"}, status=status.HTTP_403_FORBIDDEN)
+        return super().delete(request, *args, **kwargs)

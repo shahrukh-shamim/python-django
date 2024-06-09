@@ -3,5 +3,6 @@ from .views.blogs import views as BlogViews
 urlpatterns = [
 
     #Blog
-    path("blogs/", BlogViews.GetBlogs.as_view(), name="BlogIndex")
+    path("blogs/", BlogViews.BlogListCreateView.as_view(), name="BlogListCreateView"),
+    path('blogs/<int:pk>/', BlogViews.BlogDetailView.as_view(), name='BlogDetailView'),
 ]
