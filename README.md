@@ -5,6 +5,7 @@
     <li>Session authentication</li>
     <li>Sample layout configured</li>
     <li>Sample Blogging on website using sessions</li>
+    <li>Sample Blogging API using token authentication</li>
 </ol>
 <h3>Pre-requisites</h3>
 <ol>
