@@ -44,7 +44,7 @@ class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        if request.user != instance.author and not request.user.is_superuser:
+        if request.user != instance.author and not request.user.is_superuser and not request.user.has_perm('blogs.change_blog'):
             return Response(data={"error": "You are not allowed to update this blog post"}, status=status.HTTP_403_FORBIDDEN)
         return super().update(request, *args, **kwargs)
 
