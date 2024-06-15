@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import DjangoModelPermissions, IsAuthenticatedOrReadOnly
 from api.serializers.blogs import serializers
 from rest_framework.decorators import permission_classes
 from blogs.models import Blog
@@ -18,7 +18,7 @@ class BlogListCreateView(generics.ListCreateAPIView):
     filterset_class = BlogFilter
     search_fields = ['title', 'content']
     ordering_fields = ['created_at', 'title']
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, DjangoModelPermissions]
 
     def get_queryset(self):
         return BlogService.get_all_blogs()
@@ -35,7 +35,7 @@ class BlogListCreateView(generics.ListCreateAPIView):
 class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BlogService.get_all_blogs()
     serializer_class = serializers.BlogSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, DjangoModelPermissions]
     
     def get_object(self):
         obj = super().get_object()
