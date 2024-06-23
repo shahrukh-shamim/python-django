@@ -5,7 +5,7 @@ charset-normalizer==3.3.2
 crispy-bootstrap4==2024.1
 cryptography==42.0.5
 defusedxml==0.8.0rc2
-Django==5.0.4
+Django==4.2.13
 django-crispy-forms==2.1
 django-filter==24.2
 django-phonenumber-field==7.3.0
