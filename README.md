@@ -3,8 +3,9 @@
 <ol>
     <li>Basic API authentication</li>
     <li>Session authentication</li>
-    <li>Base layout configured</li>
-    <li>Basic Blogging on website using sessions</li>
+    <li>Sample layout configured</li>
+    <li>Sample Blogging on website using sessions</li>
+    <li>Sample Blogging API using token authentication</li>
 </ol>
 <h3>Pre-requisites</h3>
 <ol>
